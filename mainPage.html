@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>IBM Web Test</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"> </script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="/images/nails_1.jpg" style="width:100%; height:250px;">
+            <div class="text">NailedIT</div>
+        </div>
+        <div class="mySlides fade">
+            <img src="images/nails_2.jpg" style="width:100%; height:250px;">
+            <div class="text">NailedIT</div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="images/nails_3.jpg" style="width:100%; height:250px;">
+            <div class="text">NailedIT</div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <div class="tab">
+        <button class="tablinks" onclick="opentab(event, 'negativecustomers')">Summary</button>
+        <button class="tablinks" onclick="opentab(event, 'allcustomers')">Customers</button>
+        <button class="tablinks" onclick="opentab(event, 'search')">Search</button>
+
+    </div>
+    <div id="search" class="tabcontent">
+        <h3>Quick Search </h3>
+        <div style="height:30px">
+            <br>Name:
+            <input type="search" id="site-search" name="q"
+                   aria-label="Search name">
+        </div> <br>
+        <div style="height:40px">
+            Isactive: <input type="checkbox" id="isactive_search" /> <br>
+        </div>
+        <button id="btnSearch" onclick="search()">Search</button>
+        <div>
+            <h3>Results</h3>
+
+            <table id="result" class="blueTable" style="width:900px; overflow-y:auto;">
+                <tr>
+                    <th>IsActive</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Balance</th>
+                    <th style="width:100px;"></th>
+                    <th style="width:100px;"></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="negativecustomers" class="tabcontent">
+        <div>
+            <h4>Total Balance:</h4>
+            <p id="incomes"></p>
+        </div>
+        <h3>Customers with negative balance.</h3>
+        <p></p>
+        <table id="customer_negative" class="blueTable" style="width:900px; overflow-y:auto;">
+            <tr>
+                <th>IsActive</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Balance</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="allcustomers" class="tabcontent">
+        <h3>All Customers</h3>
+        <div style="overflow-y:auto; height:400px;">
+            <table id="customer" class="blueTable">
+                <tr>
+                    <th>IsActive</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Balance(euro)</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="popup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closepopup()">&times;</span>
+            <h2> Details</h2>
+            <hr>
+            <h3> Personal Informations</h3>
+            <table id="info" class="info">
+                <tr>
+                    <td>
+                        Isactive: <input type="checkbox" id="isactive" onclick="return false;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Name:
+                        <label id="table_name"></label>
+                    </td>
+                    <td>
+                        Company: <label id="table_company"></label>
+                    </td>
+                    <td>
+                        Age:
+                        <label id="table_age"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Gender:<label id="table_gender"></label>
+                    </td>
+
+                </tr>
+            </table>
+            <hr>
+            <h3> Communication</h3>
+            <table id="info_communication" class="info">
+                <tr>
+
+                    <td>
+                        Address:
+                        <label id="table_address"></label>
+                    </td>
+                    <td>
+                        Phone:
+                        <label id="table_phone"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        E-mail:
+                        <label id="table_email"></label>
+                    </td>
+                    <td>
+                        Phone:
+                        <label id="table_phone"></label>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table style="width:100%">
+
+                <tr>
+                    <td>
+                        <h4>  Balance(euro):</h4>
+                        <label id="table_balance"></label>
+                    </td>
+                    <td style="text-align:right">
+                        <h4>
+                            Balance with disc 10% (euro):
+                        </h4>
+                        <label id="table_balance_disc"></label>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+
+    <div id="popupEdit" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closepopup()">&times;</span>
+            <h2> Details</h2>
+            <hr>
+            <h3> Personal Informations</h3>
+            <table id="info" class="info">
+                <tr>
+                    <td>
+                        Isactive: <input type="checkbox" id="isactive">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="editTitle">
+                        Name:
+                    </td>
+                    <td>
+                        <input type="text" id="table_name_edit" class="edit">
+                    </td>
+                    <td class="editTitle" style="padding-left: 20px;">
+                        Company:
+                    </td>
+                    <td>
+                        <input type="text" id="table_company_edit" class="edit">
+                    </td>
+                    <td style="width:80px;padding-left: 20px;">
+                        Age:
+                    </td>
+                    <td>
+                        <input type="text" id="table_age_edit" class="edit" style="width:50px">
+                    </td>
+                </tr>
+            </table>
+            Gender: <input type="radio" name="gender" id="male"> Male
+            <input type="radio" name="gender" id="female"> Female<br>
+            <hr>
+            <h3> Communication</h3>
+            <table id="info_communication" class="info">
+                <tr>
+                    <td class="editTitle">
+                        Address:
+                    </td>
+                    <td>
+                        <input type="text" id="table_address_edit" class="edit" style="padding-left: 20px;">
+                    </td>
+                    <td class="editTitle" style="padding-left:20px;">
+                        Phone:
+                    </td>
+                    <td>
+                        <input type="text" id="table_phone_edit" class="edit">
+                    </td>
+                    <td style="width:80px;padding-left: 20px;"></td>
+                    <td style="width:50px"></td>
+                </tr>
+                <tr>
+                    <td class="editTitle">
+                        E-mail:
+                    </td>
+                    <td>
+                        <input type="text" id="table_email_edit" class="edit">
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table id="info_communication" class="info">
+                <tr>
+                    <td class="editTitle">
+                        <h4> Balance(euro):</h4>
+                    </td>
+                    <td>
+                        <input type="text" id="table_balance_edit" class="edit">
+                    </td>
+                    <td>
+                        <input type="button" value="Save" class="save" onclick="save()">
+                    </td>
+                </tr>
+            </table>
+
+
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="functions.js">
+    </script>
+</body>
+</html>
